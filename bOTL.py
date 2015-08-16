@@ -67,7 +67,9 @@ def EvaluateFullSection(aScope, abOTLSection):
     lpath = lpath if lpath else "@"
     print(lpath)
     lscopeid = abOTLSection.get("scope")
+    lhastransform = "transform" in abOTLSection
     ltransform = abOTLSection.get("transform", None)
+    lhasnulltransform = "nulltransform" in abOTLSection
     lnulltransform = abOTLSection.get("nulltransform", None)
     lkeepnulls = abOTLSection.get("nulls", True)
     
@@ -87,7 +89,7 @@ def EvaluateFullSection(aScope, abOTLSection):
         
     if lselections:
         # here we've got some results
-        if ltransform:
+        if lhastransform:
             # need to transform all items in selection
             for lselection in lselections:
                 # set up scope for transform, store 
@@ -108,14 +110,14 @@ def EvaluateFullSection(aScope, abOTLSection):
             lresults = lselections
     else:
         # here we've got no results
-        if lnulltransform:
+        if lhasnulltransform:
             lresults = _transform(aScope, lnulltransform)[0]
         else:
             lresults = []
             
     
     if not lkeepnulls:
-        lresults = [lresult for lresult in lresults if not lresults is None]
+        lresults = [lresult for lresult in lresults if not lresult is None]
         
     return lresults, lkeepnulls
 

@@ -453,6 +453,43 @@ class Tests(unittest.TestCase):
         
         self.DoSource1Test(ltransform, lexpected)
 
+    def test_KeepNulls(self):
+        ltransform = [{
+            "_type": "#",
+            "path": "$..items[*]",
+            "transform": {
+                "_type": "#",
+                "path": "@..quote",
+                "transform": {
+                    "quote": "#@"
+                },
+                "nulltransform": None
+            },
+            "nulls": True
+        }]
+        
+        lexpected = [{'quote': 'Yes'}, None, None]
+        
+        self.DoSource1Test(ltransform, lexpected)
+
+    def test_DontKeepNulls(self):
+        ltransform = [{
+            "_type": "#",
+            "path": "$..items[*]",
+            "transform": {
+                "_type": "#",
+                "path": "@..quote",
+                "transform": {
+                    "quote": "#@"
+                },
+                "nulltransform": None
+            },
+            "nulls": False
+        }]
+        
+        lexpected = [{'quote': 'Yes'}]
+        
+        self.DoSource1Test(ltransform, lexpected)
 
     _source1 = {
           "cursor": "8b08006b-963a-6909-c132-cc618cd4b352",
