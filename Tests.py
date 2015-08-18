@@ -23,6 +23,8 @@ class Tests(unittest.TestCase):
                     if retval:
                         for lindex, litem in enumerate(aMAS1):
                             retval = self.deepEqual(litem, aMAS2[lindex], maxdepth-1)
+                            if not retval:
+                                break
                 else:
                     retval = aMAS1 == aMAS2
             
